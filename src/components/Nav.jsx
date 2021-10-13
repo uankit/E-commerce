@@ -57,7 +57,7 @@ const Logo = styled.h1`
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
-  margin-right: 2.5rem;
+  margin-left: 2.5rem;
 `;
 const Navbar = () => {
   return (
