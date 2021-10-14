@@ -67,8 +67,5 @@ export const bestSellingProducts = [
     id: 8,
     img: "https://i.ibb.co/rF11yJq/transparent-bg-shadow-designify-2.png",
   },
-  {
-    id: 9,
-    img: "https://i.ibb.co/X80KyXr/transparent-bg-shadow-designify-1.png",
-  },
+
 ];
