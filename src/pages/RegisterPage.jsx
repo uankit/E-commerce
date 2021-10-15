@@ -23,7 +23,7 @@ const Right = styled.div`
 const Form = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 40%;
+  width: 70%;
 `;
 
 const Title = styled.h1`
@@ -31,17 +31,16 @@ const Title = styled.h1`
   margin-bottom: 10px;
 `;
 const Image = styled.img``;
-
 const Input = styled.input`
   flex: 1;
-  min-width: 50%;
+  min-width: 40%;
   margin: 20px 10px 0px 0px;
   padding: 10px;
 `;
 
 const Button = styled.button`
-  padding: 10px 15px;
-  margin-top: 15px;
+  padding: 15px;
+  margin-top: 20px;
   border: 1px solid black;
   background-color: white;
   cursor: pointer;
@@ -52,16 +51,7 @@ const Button = styled.button`
     color: white;
   }
 `;
-
-const Link = styled.a`
-  display: block;
-  margin: 15px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-`;
-
-const Login = () => {
+const RegisterPage = () => {
   return (
     <Container>
       <Wrapper>
@@ -69,20 +59,20 @@ const Login = () => {
           <Image src="https://i.ibb.co/rsJ62Lv/pic-removebg-preview.png" />
         </Left>
         <Right>
-          <Title>LOGIN</Title>
+          <Title>REGISTER</Title>
           <Form>
-            <Input placeholder="Email" type="email" />
-            <Input placeholder="Password" type="password" />
+            <Input placeholder="First Name" />
+            <Input placeholder="Last Name" />
+            <Input placeholder="Username" />
+            <Input placeholder="Email" type="email"/>
+            <Input placeholder="Password" type="password"/>
+            <Input placeholder="Confirm Password" type="password"/>
+            <Button>Create Account</Button>
           </Form>
-
-          <Link>Forgot your Password</Link>
-          <Link>Create an account</Link>
-
-          <Button>Login</Button>
         </Right>
       </Wrapper>
     </Container>
   );
 };
 
-export default Login;
+export default RegisterPage;
