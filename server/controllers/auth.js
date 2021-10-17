@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 
@@ -32,8 +33,17 @@ const login = async (req, res) => {
     req.body.password !== originalPassword &&
       res.status(401).json("Invalid Password");
 
+    const token = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin,
+      },
+      process.env.JWT_KEY,
+      { expiresIn: "7d" }
+    );
+
     const { password, ...others } = user._doc;
-    res.status(200).json(others);
+    res.status(200).json({ ...others, token });
   } catch (error) {
     res.status(500).json(error.message);
   }
