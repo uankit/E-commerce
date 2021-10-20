@@ -7,11 +7,18 @@ dotenv.config();
 
 const register = async (req, res) => {
   const { username, email, password } = req.body;
-  const newUser = new User({
-    username,
-    email,
-    password: CryptoJS.AES.encrypt(password, process.env.SECRET_KEY).toString(),
-  });
+  if (!password) return res.status(404).json("Password required");
+
+   const newUser = new User({
+        username,
+        email,
+        password: CryptoJS.AES.encrypt(
+          password,
+          process.env.SECRET_KEY
+        ).toString(),
+      });
+
+      
   try {
     const saveUser = await newUser.save();
     res.status(201).json(saveUser);
