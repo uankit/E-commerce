@@ -4,6 +4,8 @@ const { db } = require("./config/db");
 const auth = require("./routes/auth");
 const user = require("./routes/user");
 const product = require("./routes/product");
+const cart = require("./routes/cart");
+const order = require("./routes/order");
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use("/api/auth", auth);
 app.use("/api/user", user);
 app.use("/api/product", product);
+app.use("/api/cart", cart);
+app.use("/api/order", order);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server Up and Running`);
