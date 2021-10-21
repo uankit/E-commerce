@@ -6,6 +6,7 @@ const user = require("./routes/user");
 const product = require("./routes/product");
 const cart = require("./routes/cart");
 const order = require("./routes/order");
+const payment = require("./routes/payment");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use("/api/user", user);
 app.use("/api/product", product);
 app.use("/api/cart", cart);
 app.use("/api/order", order);
+app.use("/api/payment", payment);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server Up and Running`);
