@@ -11,7 +11,7 @@ const {
   getOrder,
   createOrder,
   getIncome
-} = require("../controllers/Order.js");
+} = require("../controllers/order.js");
 
 router.post("/", verifyToken, createOrder);
 router.get("/", verifyTokenAndAdmin, getAllOrders);

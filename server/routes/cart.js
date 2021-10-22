@@ -10,7 +10,7 @@ const {
   getAllCarts,
   getCart,
   createCart,
-} = require("../controllers/Cart.js");
+} = require("../controllers/cart.js");
 
 router.post("/", verifyToken, createCart);
 router.get("/", verifyTokenAndAdmin, getAllCarts);
