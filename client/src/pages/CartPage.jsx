@@ -160,9 +160,9 @@ const CartPage = () => {
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
                   <Remove />
+                  <ProductAmount>1</ProductAmount>
+                  <Add />
                 </ProductAmountContainer>
                 <ProductPrice>Rs. 2000</ProductPrice>
               </PriceDetail>
@@ -186,9 +186,9 @@ const CartPage = () => {
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
                   <Remove />
+                  <ProductAmount>1</ProductAmount>
+                  <Add />
                 </ProductAmountContainer>
                 <ProductPrice>Rs. 1000</ProductPrice>
               </PriceDetail>

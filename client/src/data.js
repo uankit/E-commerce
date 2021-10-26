@@ -23,14 +23,17 @@ export const categories = [
   {
     id: 1,
     img: "https://i.ibb.co/rF11yJq/transparent-bg-shadow-designify-2.png",
+    cat: "men",
   },
   {
     id: 2,
     img: "https://i.ibb.co/X80KyXr/transparent-bg-shadow-designify-1.png",
+    cat: "women",
   },
   {
     id: 3,
     img: "https://i.ibb.co/q5B8b7T/transparent-bg-shadow-designify.png",
+    cat: "jacket",
   },
 ];
 
@@ -67,5 +70,4 @@ export const bestSellingProducts = [
     id: 8,
     img: "https://i.ibb.co/rF11yJq/transparent-bg-shadow-designify-2.png",
   },
-
 ];
