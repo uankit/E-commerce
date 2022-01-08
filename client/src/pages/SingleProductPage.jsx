@@ -105,7 +105,7 @@ const SingleProductPage = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [product, setProduct] = useState({});
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
@@ -164,7 +164,7 @@ const SingleProductPage = () => {
           <AddContainer>
             <AmountContainer>
               <Remove
-                onClick={() => quantity > 0 && setQuantity(quantity - 1)}
+                onClick={() => quantity > 1 && setQuantity(quantity - 1)}
               />
               <Amount>{quantity}</Amount>
               <Add onClick={() => setQuantity(quantity + 1)} />

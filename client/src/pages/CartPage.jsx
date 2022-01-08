@@ -3,6 +3,7 @@ import Nav from "../components/Nav";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import { Add, Remove } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -126,6 +127,7 @@ const Button = styled.button`
 `;
 
 const CartPage = () => {
+  const cart = useSelector((state) => state.cart);
   return (
     <Container>
       <Announcement />
@@ -135,70 +137,47 @@ const CartPage = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag (2)</TopText>
+            <TopText>Shopping Bag ({cart.quantity})</TopText>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT</TopButton>
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.ibb.co/cDCM45F/transparent-bg-shadow-designify-10.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product: </b> SQUID GAME JACKET
-                  </ProductName>
-                  <ProductID>
-                    <b>ID: </b>987654213
-                  </ProductID>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size: </b>S
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Remove />
-                  <ProductAmount>1</ProductAmount>
-                  <Add />
-                </ProductAmountContainer>
-                <ProductPrice>Rs. 2000</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product: </b> {product.title}
+                    </ProductName>
+                    <ProductID>
+                      <b>ID: </b>{product._id}
+                    </ProductID>
+                    <ProductColor color={product.color}/>
+                    <ProductSize>
+                      <b>Size: </b>{product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Remove />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Add />
+                  </ProductAmountContainer>
+                  <ProductPrice>Rs. {product.price*product.quantity}</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.ibb.co/mNJZPMN/transparent-bg-shadow-designify-7.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product: </b>JERSEY
-                  </ProductName>
-                  <ProductID>
-                    <b>ID: </b>987654214
-                  </ProductID>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size: </b>M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Remove />
-                  <ProductAmount>1</ProductAmount>
-                  <Add />
-                </ProductAmountContainer>
-                <ProductPrice>Rs. 1000</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>Rs.3000</SummaryItemPrice>
+              <SummaryItemPrice>Rs.{cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -210,7 +189,7 @@ const CartPage = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText type="total">Total</SummaryItemText>
-              <SummaryItemPrice>Rs.3000</SummaryItemPrice>
+              <SummaryItemPrice>Rs.{cart.total}</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>
