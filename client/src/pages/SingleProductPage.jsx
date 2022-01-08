@@ -5,141 +5,171 @@ import Products from "../components/Products";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import { Add, Remove } from "@mui/icons-material";
+import { useLocation } from "react-router";
+import { useState, useEffect } from "react";
+import { publicRequest } from "../reqMethod";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
+
+const Container = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 50px;
+  padding: 50px;
+  display: flex;
+`;
+const ImageContainer = styled.div`
+  flex: 1;
+`;
+const Image = styled.img`
+  width: 100%;
+  height: 90vh;
+  object-fit: cover;
+`;
+const InfoContainer = styled.div`
+  flex: 1;
+  padding: 0px 50px;
+`;
+const Title = styled.h1`
+  font-weight: 500;
+`;
+const Description = styled.p`
+  margin: 20px 0px;
+`;
+const Price = styled.span`
+  font-weight: 100;
+  font-size: 30px;
+`;
+
+const FilterContainer = styled.div`
+  width: 50%;
+  margin: 30px 0px;
+  display: flex;
+  justify-content: space-between;
+`;
+const Filter = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const FilterTitle = styled.span`
+  font-size: 20px;
+  font-weight: 200;
+`;
+const FilterColor = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: ${(props) => props.color};
+  margin: 0px 5px;
+  cursor: pointer;
+`;
+const FilterSize = styled.select`
+  padding: 8px;
+  margin: 20px 10px;
+`;
+const FilterSizeOption = styled.option``;
+const AddContainer = styled.div`
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const AmountContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+`;
+const Amount = styled.span`
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid teal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 5px;
+`;
+const Button = styled.button`
+  padding: 15px;
+  border: 1px solid teal;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+`;
 
 const SingleProductPage = () => {
-  const Container = styled.div``;
-  const Wrapper = styled.div`
-    margin-top: 50px;
-    padding: 50px;
-    display: flex;
-  `;
-  const ImageContainer = styled.div`
-    flex: 1;
-  `;
-  const Image = styled.img`
-    width: 100%;
-    height: 90vh;
-    object-fit: cover;
-  `;
-  const InfoContainer = styled.div`
-    flex: 1;
-    padding: 0px 50px;
-  `;
-  const Title = styled.h1`
-    font-weight: 500;
-  `;
-  const Description = styled.p`
-    margin: 20px 0px;
-  `;
-  const Price = styled.span`
-    font-weight: 100;
-    font-size: 30px;
-  `;
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(0);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
 
-  const FilterContainer = styled.div`
-    width: 50%;
-    margin: 30px 0px;
-    display: flex;
-    justify-content: space-between;
-  `;
-  const Filter = styled.div`
-    display: flex;
-    align-items: center;
-  `;
-  const FilterTitle = styled.span`
-    font-size: 20px;
-    font-weight: 200;
-  `;
-  const FilterColor = styled.div`
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: ${(props) => props.color};
-    margin: 0px 5px;
-    cursor: pointer;
-  `;
-  const FilterSize = styled.select`
-    padding: 8px;
-    margin: 20px 10px;
-  `;
-  const FilterSizeOption = styled.option``;
-  const AddContainer = styled.div`
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  `;
-  const AmountContainer = styled.div`
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-  `;
-  const Amount = styled.span`
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    border: 1px solid teal;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 5px;
-  `;
-  const Button = styled.button`
-    padding: 15px;
-    border: 1px solid teal;
-    background-color: white;
-    cursor: pointer;
-    font-weight: 600;
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getProduct();
+  }, [id]);
 
-    &:hover {
-      background-color: black;
-      color: white;
-    }
-  `;
-
+  const handleClick = () => {
+    // update cart
+    dispatch(
+      addProduct({
+        ...product,
+        quantity,
+        color,
+        size,
+      })
+    );
+  };
   return (
     <Container>
       <Announcement />
       <Nav />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://i.ibb.co/cDCM45F/transparent-bg-shadow-designify-10.png" />
+          <Image src={product.img} />
         </ImageContainer>
         <InfoContainer>
-          <Title>Squid Game Jacket</Title>
-          <Description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </Description>
-          <Price>Rs. 2000</Price>
+          <Title>{product.title}</Title>
+          <Description>{product.desc}</Description>
+          <Price>Rs. {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-                <FilterSizeOption>XXL</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size?.map((m) => (
+                  <FilterSizeOption key={m}>{m}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>0</Amount>
-              <Add />
+              <Remove
+                onClick={() => quantity > 0 && setQuantity(quantity - 1)}
+              />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => setQuantity(quantity + 1)} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
