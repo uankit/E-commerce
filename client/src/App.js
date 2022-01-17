@@ -4,6 +4,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SingleProductPage from "./pages/SingleProductPage";
 import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/CartPage";
+import SuccessPage from "./pages/SuccessPage";
 
 import {
   BrowserRouter as Router,
@@ -11,9 +12,10 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function App() {
-  let user = true;
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
       <Switch>
@@ -31,6 +33,10 @@ export default function App() {
 
         <Route exact path="/cart">
           <CartPage />
+        </Route>
+
+        <Route exact path="/success">
+          <SuccessPage />
         </Route>
 
         <Route exact path="/auth/register">

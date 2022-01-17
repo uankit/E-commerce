@@ -4,7 +4,13 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import { Add, Remove } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import StripeCheckout from "react-stripe-checkout";
+import { useHistory } from "react-router";
+import { userRequest } from "../reqMethod";
 
+
+const KEY = process.env.REACT_APP_STRIPE;
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
@@ -124,10 +130,33 @@ const Button = styled.button`
   padding: 15px;
   background-color: black;
   color: white;
+  cursor: pointer;
 `;
 
 const CartPage = () => {
   const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const history = useHistory();
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/payment", {
+          tokenId: stripeToken.id,
+          amount: cartTotal * 100,
+        });
+        console.log('done')
+        history.push("/success", {
+          stripeData: res.data,
+          products: cart,
+        });
+      } catch {}
+    };
+    stripeToken && cart.total>=1 && makeRequest();
+  }, [stripeToken, cart.total, history]);
   return (
     <Container>
       <Announcement />
@@ -153,11 +182,13 @@ const CartPage = () => {
                       <b>Product: </b> {product.title}
                     </ProductName>
                     <ProductID>
-                      <b>ID: </b>{product._id}
+                      <b>ID: </b>
+                      {product._id}
                     </ProductID>
-                    <ProductColor color={product.color}/>
+                    <ProductColor color={product.color} />
                     <ProductSize>
-                      <b>Size: </b>{product.size}
+                      <b>Size: </b>
+                      {product.size}
                     </ProductSize>
                   </Details>
                 </ProductDetail>
@@ -167,7 +198,9 @@ const CartPage = () => {
                     <ProductAmount>{product.quantity}</ProductAmount>
                     <Add />
                   </ProductAmountContainer>
-                  <ProductPrice>Rs. {product.price*product.quantity}</ProductPrice>
+                  <ProductPrice>
+                    Rs. {product.price * product.quantity}
+                  </ProductPrice>
                 </PriceDetail>
               </Product>
             ))}
@@ -191,7 +224,17 @@ const CartPage = () => {
               <SummaryItemText type="total">Total</SummaryItemText>
               <SummaryItemPrice>Rs.{cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <StripeCheckout
+              name="MVMX."
+              billingAddress
+              shippingAddress
+              description={`Your Cart Total is Rs.${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

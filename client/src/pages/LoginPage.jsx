@@ -1,4 +1,7 @@
+import { useState } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import styled from "styled-components";
+import { login } from "../redux/api";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -61,7 +64,19 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
+const Error = styled.span`
+  color: red;
+`;
+
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const {isFetching, error} = useSelector((state) => state.user);
+  const handleClick = (e) => {
+    e.preventDefault();
+    login(dispatch, { email, password });
+  };
   return (
     <Container>
       <Wrapper>
@@ -71,14 +86,25 @@ const LoginPage = () => {
         <Right>
           <Title>LOGIN</Title>
           <Form>
-            <Input placeholder="Email" type="email" />
-            <Input placeholder="Password" type="password" />
+            <Input
+              placeholder="Email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              placeholder="Password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Form>
 
           <Link>Forgot your Password</Link>
           <Link>Create an account</Link>
 
-          <Button>Login</Button>
+          <Button onClick={handleClick} disabled={isFetching}>
+            Login
+          </Button>
+          {error && <Error>Something went wrong</Error>}
         </Right>
       </Wrapper>
     </Container>
