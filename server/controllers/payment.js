@@ -11,6 +11,7 @@ const createPayment = (req, res) => {
       if (err) {
         res.status(500).json(err);
       } else {
+        console.log(payRes);
         res.status(200).json(payRes);
       }
     }
